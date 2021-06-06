@@ -1,24 +1,27 @@
-import gql from 'graphql-tag';
+import { gql } from '@apollo/client';
 
 export const USER_MUTATION = gql`
+
 mutation register(
     $username:String!
     $email:String!
     $password:String!
     $confirmPassword:String!
 ){
-    register(RegisterInput:{
+    register(registerInput:{
         username:$username
         email:$email
         password:$password
         confirmPassword:$confirmPassword
     }){
         
-        id
+            id
     email
     username
     createdAt
     token
+        
+       
     }
 }
 `

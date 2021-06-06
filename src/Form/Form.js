@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
+import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Typography, Button } from '@material-ui/core';
 import { USER_MUTATION } from '../Graphql/userMutation';
+import { useDispatch } from 'react-redux';
 import { useStyles } from './Styles';
+import { setUserAction } from '../Redux/Action/userAction';
 
 export default function Form() {
+    const history = useHistory()
+    const dispatch = useDispatch()
     const classes = useStyles();
-    const [errors, setErrors] = useState({})
+    // const [errors, setErrors] = useState("")
 
     const [Forms, setForm] = useState(true);
     const handleForm = () => {
@@ -21,47 +26,54 @@ export default function Form() {
         username: "", email: "", password: "", confirmPassword: ""
     });
     const [addUser, { loading }] = useMutation(USER_MUTATION, {
-        update(proxy, result) {
-            console.log(result)
+        update(proxy, { data: { register: userData } }) {
+            console.log(userData)
 
+            dispatch(setUserAction(userData))
+            history.push("/")
+
+            //console.log(dispatch(setUserAction(userData)))
         },
-        onError(err) {
-            setErrors(err.graphQLErrors[0].extensions.exception.errors)
-        },
+        // {
+        //   setErrors(err && err.graphQLErrors[0] ? err.graphQLErrors[0].extensions.exception.errors : {})
+        //},
         variables: postData
 
-    })
-
+    });
     const handleSubmit = (e) => {
         e.preventDefault()
         addUser()
+
     }
+
     return (
         <div>
 
             {
                 Forms ?
                     (
-                        <form style={{ textAlign: "center", marginTop: "13em" }} onSubmit={handleSubmit}>
+                        <form style={{ textAlign: "center", marginTop: "13em" }} >
                             <Button variant="contained" color="primary">
                                 LinkUp
                             </Button>
                             <TextField
-                                error={errors?.username}
-                                helperText={errors?.username}
+                                //  error={Boolean(errors?.username)}
+                                //helperText={errors?.username}
                                 id=""
                                 label="username"
                                 fullWidth
                                 value={postData.username}
+                                onChange={(e) => setPostData({ ...postData, username: e.target.value })}
                             />
                             <TextField
-                                error={errors?.password}
-                                helperText={errors?.password}
+                                //error={Boolean(errors?.password)}
+                                //helperText={Object.keys(errors).length > 1 && Object.values(errors).map(err => err.password)
+                                //  }
                                 id=""
                                 label="password"
                                 fullWidth
                                 value={postData.password}
-
+                                onChange={(e) => setPostData({ ...postData, password: e.target.value })}
                             />
 
                             <Button type="submit" variant="contained" color="primary" fullWidth className={classes.buttom}>
@@ -72,46 +84,52 @@ export default function Form() {
                         </form>
 
                     ) : (
-                        <form style={{ textAlign: "center", marginTop: "10em" }}>
+                        <form style={{ textAlign: "center", marginTop: "10em" }} onSubmit={handleSubmit}>
                             <Button variant="contained" color="primary" >
                                 LinkUp
                             </Button>
 
                             <TextField
-                                error={errors?.username}
-                                helperText={errors?.username}
+                                //error={Boolean(errors?.username)}
+                                //helperText={(errors?.username)}
 
                                 id=""
                                 label="username"
                                 fullWidth
                                 value={postData.username}
+                                onChange={(e) => setPostData({ ...postData, username: e.target.value })}
                             />
                             <TextField
-                                error={errors?.email}
-                                helperText={errors?.email}
+                                //error={Boolean(errors?.email)}
+                                // helperText={(errors?.email)}
 
                                 id=""
                                 label="email"
                                 fullWidth
                                 value={postData.email}
+                                onChange={(e) => setPostData({ ...postData, email: e.target.value })}
                             />
                             <TextField
-                                error={errors?.password}
-                                helperText={errors?.password}
+                                //error={Boolean(errors?.password)}
+                                //helperText={errors?.password}
 
                                 id=""
                                 label="password"
                                 fullWidth
                                 value={postData.password}
+                                onChange={(e) => setPostData({ ...postData, password: e.target.value })}
+
                             />
                             <TextField
-                                error={errors?.confirmPassword}
-                                helperText={errors?.confirmPassword}
+                                //error={Boolean(errors?.confirmPassword)}
+                                //helperText={errors?.confirmPassword}
 
                                 id=""
                                 label="confirmPassword"
                                 fullWidth
                                 value={postData.confirmPassword}
+                                onChange={(e) => setPostData({ ...postData, confirmPassword: e.target.value })}
+
                             />
                             <Button type="submit" variant="contained" color="primary" fullWidth className={classes.buttom}>
                                 SIGN UP

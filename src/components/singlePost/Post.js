@@ -6,7 +6,7 @@ import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import { useStyles } from '../PostContent/Styles';
 
 export default function SinglePost(props) {
-    const { username } = props.posts;
+    const { username } = props.post;
 
     const classes = useStyles();
 
