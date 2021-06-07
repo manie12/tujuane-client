@@ -1,16 +1,27 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Avatar, Grid } from '@material-ui/core';
 import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MailOutlineIcon from '@material-ui/icons/MailOutline';
+import AddIcon from '@material-ui/icons/Add';
 import { useStyles } from './Styles';
 
 export default function Header() {
+    const history = useHistory();
     const classes = useStyles();
+    const handleAvatar = () => {
+        history.push("/bio")
+    }
+    const handleHome = () => {
+        history.push("/")
+    }
+    const handleAddIcon = () => {
+        history.push("/add")
+    }
     return (
         <div>
             <AppBar position="fixed" color="primary">
@@ -22,7 +33,7 @@ export default function Header() {
                             </Typography>
 
                         </Grid>
-                        <Grid container item xs={2}>
+                        <Grid container item xs={2} onClick={handleAvatar}>
                             <Avatar
                                 className={classes.avatar}
                                 fontSize="large"
@@ -39,7 +50,7 @@ export default function Header() {
             <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
                     <Grid container spacing={3} justify="space-evenly">
-                        <Grid item xs={3}>
+                        <Grid item xs={3} onClick={handleHome}>
                             <HomeIcon fontSize="large" />
 
                         </Grid>
@@ -47,9 +58,8 @@ export default function Header() {
                             <SearchIcon fontSize="large" />
 
                         </Grid>
-                        <Grid item xs={3}>
-                            <NotificationsIcon fontSize="large" />
-
+                        <Grid item xs={3} onClick={handleAddIcon}>
+                            <AddIcon fontSize="large" />
                         </Grid>
                         <Grid item xs={3}>
                             <MailOutlineIcon fontSize="large" />

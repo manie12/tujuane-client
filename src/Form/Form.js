@@ -4,9 +4,10 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import { Typography, Button } from '@material-ui/core';
 import { USER_MUTATION } from '../Graphql/userMutation';
+import { LOGIN_MUTATION } from '../Graphql/LoginMutation';
 import { useDispatch } from 'react-redux';
 import { useStyles } from './Styles';
-import { setUserAction } from '../Redux/Action/userAction';
+import { setUserAction, setLoginAction } from '../Redux/Action/userAction';
 
 export default function Form() {
     const history = useHistory()
@@ -25,6 +26,7 @@ export default function Form() {
     const [postData, setPostData] = useState({
         username: "", email: "", password: "", confirmPassword: ""
     });
+
     const [addUser, { loading }] = useMutation(USER_MUTATION, {
         update(proxy, { data: { register: userData } }) {
             console.log(userData)
@@ -40,11 +42,31 @@ export default function Form() {
         variables: postData
 
     });
+    const [loginAdd,] = useMutation(LOGIN_MUTATION, {
+        update(proxy, { data: { login: loginUser } }) {
+            console.log(loginUser);
+            dispatch(setLoginAction(loginUser));
+            history.push("/")
+        },
+        variables: {
+            username: postData.username,
+            password: postData.password
+        }
+    })
     const handleSubmit = (e) => {
         e.preventDefault()
         addUser()
 
     }
+
+    const handleLoginSubmit = (e) => {
+        e.preventDefault()
+        loginAdd();
+    }
+    if (loading) {
+        return <p>Loading</p>
+    }
+
 
     return (
         <div>
@@ -52,7 +74,7 @@ export default function Form() {
             {
                 Forms ?
                     (
-                        <form style={{ textAlign: "center", marginTop: "13em" }} >
+                        <form onSubmit={handleLoginSubmit} style={{ textAlign: "center", marginTop: "13em" }} >
                             <Button variant="contained" color="primary">
                                 LinkUp
                             </Button>

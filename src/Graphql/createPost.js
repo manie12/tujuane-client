@@ -1,13 +1,15 @@
 import { gql } from '@apollo/client';
 
-export const FETCH_QUERY = gql`
-{
-    getPosts{
+export const CREATE_POST_MUTATION = gql`
+
+mutation createPost($body:String!){
+    createPost(body:$body){
         id username body createdAt
+        
         comments{
             id
             username
-            body   
+        
             createdAt
         }
             
@@ -19,9 +21,9 @@ export const FETCH_QUERY = gql`
          }
          likeCount
 
-    
-     
-    } 
+    }
 }
 
+
+   
 `
