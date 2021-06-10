@@ -6,9 +6,12 @@ import Post from './components/PostContent/Post';
 import Form from './Form/Form';
 import Bio from './components/BioForm/Bio';
 import Add from './components/AddPost/add';
-
+import PostBio from './components/SinglePerson/Post';
+//import { useSelector } from 'react-redux';
+//import { useSelector } from 'react-redux';
 
 function App() {
+  //export const user = useSelector(state => state.users)
   return (
 
     <div className="App">
@@ -27,6 +30,9 @@ function App() {
         </Route>
         <Route exact path="/add">
           <Add />
+        </Route>
+        <Route exact path="/post/:username">
+          <PostBio />
         </Route>
 
       </Switch>

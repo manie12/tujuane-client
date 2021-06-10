@@ -8,22 +8,25 @@ import thunk from 'redux-thunk';
 import reducers from './Redux/index'
 import { setContext } from 'apollo-link-context';
 
+
+
+
+
 const httpLink = createHttpLink({
     uri: "http://localhost:5000"
 });
 
-
-
 const authLink = setContext(() => {
-    const localToken = JSON.parse(localStorage.getItem("jwtToken"))
+    const localToken = JSON.parse(localStorage.getItem("jwtToken"));
     console.log(localToken.token)
-
+    //const user = useSelector(state => state.users)
     return {
         headers: {
             Authorization: localToken ? `Bearer ${localToken.token}` : ""
         }
     }
 })
+
 
 
 const client = new ApolloClient({
@@ -36,8 +39,8 @@ const store = createStore(reducers, compose(applyMiddleware(thunk)));
 
 
 export default (
-
     <ApolloProvider client={client}>
+
         <Provider store={store}>
 
             <BrowserRouter >
@@ -45,8 +48,10 @@ export default (
                 <App />
 
             </BrowserRouter>
-        </Provider >
 
+        </Provider >
     </ApolloProvider>
+
+
 
 )

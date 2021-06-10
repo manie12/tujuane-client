@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, } from 'react';
 import { useMutation } from '@apollo/client';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
@@ -10,11 +10,9 @@ import { useStyles } from './Styles';
 import { setUserAction, setLoginAction } from '../Redux/Action/userAction';
 
 export default function Form() {
-    const history = useHistory()
-    const dispatch = useDispatch()
+    const history = useHistory();
+    const dispatch = useDispatch();
     const classes = useStyles();
-    // const [errors, setErrors] = useState("")
-
     const [Forms, setForm] = useState(true);
     const handleForm = () => {
         setForm(false)
@@ -31,6 +29,7 @@ export default function Form() {
         update(proxy, { data: { register: userData } }) {
             console.log(userData)
 
+
             dispatch(setUserAction(userData))
             history.push("/")
 
@@ -42,11 +41,18 @@ export default function Form() {
         variables: postData
 
     });
-    const [loginAdd,] = useMutation(LOGIN_MUTATION, {
+    const [login,] = useMutation(LOGIN_MUTATION, {
         update(proxy, { data: { login: loginUser } }) {
             console.log(loginUser);
-            dispatch(setLoginAction(loginUser));
-            history.push("/")
+
+
+
+            dispatch(setLoginAction(loginUser))
+
+
+            history.push("/");
+
+
         },
         variables: {
             username: postData.username,
@@ -55,13 +61,15 @@ export default function Form() {
     })
     const handleSubmit = (e) => {
         e.preventDefault()
+
         addUser()
+
 
     }
 
     const handleLoginSubmit = (e) => {
         e.preventDefault()
-        loginAdd();
+        login();
     }
     if (loading) {
         return <p>Loading</p>

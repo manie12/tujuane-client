@@ -1,9 +1,18 @@
 import { POST_USER, LOGIN_USER } from '../Constants';
 
 export const setUserAction = (data) => async (dispatch) => {
+
     try {
-        console.log(data)
+        // sessionStorage.setItem("jwtToken", JSON.stringify(JSON.stringify(data)));
+
+
+
+        // const getToken = await JSON.parse(sessionStorage.getItem("jwtToken"));
+
+
         dispatch({ type: POST_USER, payload: data })
+
+
     } catch (error) {
         console.log(error)
     }
@@ -14,7 +23,16 @@ export const setUserAction = (data) => async (dispatch) => {
 export const setLoginAction = (data) => async (dispatch) => {
 
     try {
-        dispatch({ type: LOGIN_USER, payload: data })
+        //   sessionStorage.setItem("jwtToken", JSON.stringify(data));
+
+        // const DecodedToken = await JSON.parse(sessionStorage.getItem("jwtToken"))
+        dispatch({
+            type: LOGIN_USER, payload: data
+        })
+
+
+
+
     } catch (error) {
         console.log(error)
 

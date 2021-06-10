@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { Grid } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FETCH_QUERY } from '../../Graphql/FetchPost';
 import { useStyles } from './Styles';
 import SinglePost from '../singlePost/Post';
+import { getPosts } from '../../Redux/Action/postAction';
 
 const Post = () => {
-
+    const dispatch = useDispatch();
     const [posted, setPosts] = useState([]);
 
-    const user = useSelector(state => state.users);
-    console.log(user)
+    const posts = useSelector(state => state.posts);
 
+    useEffect(() => {
+        console.log(posts)
+
+    }, [posts])
     const classes = useStyles();
 
 
@@ -23,11 +27,15 @@ const Post = () => {
             const { getPosts } = data;
             setPosts(getPosts)
             console.log(getPosts)
+
         }
 
     }, [data])
 
+    useEffect(() => {
+        dispatch(getPosts(posted))
 
+    }, [posted, dispatch])
 
 
     if (loading) {
@@ -37,7 +45,7 @@ const Post = () => {
         <div className={classes.container}>
             {
 
-                posted && posted.map((post) => (
+                posts && posts.map((post) => (
                     <Grid container spacing={2} key={post.id}>
                         <SinglePost post={post} />
                     </Grid>

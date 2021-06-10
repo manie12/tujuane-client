@@ -8,8 +8,7 @@ mutation getPost($postId:String!){
 
         comments{
             id
-            username
-        
+            username       
             createdAt
         }
             
