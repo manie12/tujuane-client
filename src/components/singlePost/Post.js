@@ -7,16 +7,21 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
+
 import { useStyles } from '../PostContent/Styles';
 import { LIKE_MUTATION } from '../../Graphql/LikeMutation';
 
 export default function SinglePost({ post: {
-    username, body, likes, likeCount, id
+    username, body, likes, likeCount, id, comments, commentCount
 } }) {
+
+
+
 
     const [like, setlike] = useState(true)
     const history = useHistory()
     const user = useSelector(state => state.users);
+    //const post = useSelector(state => state.posts);
 
     useEffect(() => {
         localStorage.setItem("jwtToken", JSON.stringify(user))
@@ -62,6 +67,9 @@ export default function SinglePost({ post: {
     }
 
 
+    const handleComment = () => {
+        history.push(`/comments/${id}`)
+    }
     const UserSwitch = user ? (
         <>
             <Grid item container alignItems="center" xs={12} >
@@ -95,7 +103,8 @@ export default function SinglePost({ post: {
                     </Grid>
                 </Grid>
                 <Grid item xs={4}>
-                    <CommentIcon fontSize="medium" />
+                    <CommentIcon fontSize="medium" onClick={handleComment} />
+                    {commentCount}
                 </Grid>
                 <Grid item xs={4}>
                     <SendTwoToneIcon fontSize="medium" />

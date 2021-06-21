@@ -7,6 +7,7 @@ import Form from './Form/Form';
 import Bio from './components/BioForm/Bio';
 import Add from './components/AddPost/add';
 import PostBio from './components/SinglePerson/Post';
+import Comments from './components/CommentSection/Comments';
 //import { useSelector } from 'react-redux';
 //import { useSelector } from 'react-redux';
 
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route exact path="/post/:username">
           <PostBio />
+        </Route>
+        <Route exact path="/comments/:id">
+          <Comments />
         </Route>
 
       </Switch>
